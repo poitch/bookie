@@ -1,0 +1,106 @@
+#!/usr/bin/env ruby
+
+line = ENV['COMP_LINE'].to_s.gsub(/^\s+/, '').freeze
+
+arguments = line.split(/\s+/)
+command = arguments[1].to_s
+completion_word = (line =~ /\s+$/) ? '' : arguments.last
+
+narg = completion_word.empty? ? arguments.size : arguments.size - 1
+
+#puts "line = #{line}"
+#puts "command = #{command}"
+#puts "arguments = #{arguments}"
+#puts "arguments.size = #{arguments.size}"
+#puts "narg = #{narg}"
+#puts "completion_word = #{completion_word}"
+
+COMMANDS = [
+    'accounts',
+    'create_account',
+    'transactions',
+    'add_transaction',
+    'reconcile',
+    'delete_transaction',
+    'remove_transaction',
+    'update_transaction',
+    'edit_transaction',
+    'add_category',
+    'categories',
+    'new_cycle',
+    'search_transaction',
+    'add_bill',
+    'bills',
+    'delete_bill',
+    'remove_bill',
+    'autobill',
+    'edit_bill',
+    'update_bill',
+]
+
+if command.length == 0
+    puts COMMANDS.join("\n")
+else
+    case command
+    when 'accounts'
+        # No parameters
+    when 'create_account'
+        # name, type, (opening_balance, opening_date)
+    when 'transactions'
+        # account
+        if narg == 2
+            require_relative '../lib/bookie/runner'
+            puts Account.all(:name.like => "#{completion_word}%").map { |a| a.name }.join("\n")
+        end
+    when 'add_transaction'
+        # account payee amount transaction_date description category
+        if narg == 2
+            # search account
+            require_relative '../lib/bookie/runner'
+            puts Account.all(:name.like => "#{completion_word}%").map { |a| a.name }.join("\n")
+        elsif narg == 3
+            # search payee
+            require_relative '../lib/bookie/runner'
+            puts Transaction.all(:payee.like => "#{completion_word}%").map { |t| t.payee }.join("\n")
+        elsif narg == 6
+            # search categories
+            require_relative '../lib/bookie/runner'
+            puts Category.all(:name.like => "#{completion_word}%").map { |c| c.name }.join("\n")
+        end
+    when 'reconcile'
+    when 'delete_transaction'
+    when 'remove_transaction'
+    when 'update_transaction'
+    when 'edit_transaction'
+    when 'add_category'
+    when 'categories'
+    when 'new_cycle'
+    when 'search_transaction'
+        if narg == 2
+            require_relative '../lib/bookie/runner'
+            puts Account.all(:name.like => "#{completion_word}%").map { |a| a.name }.join("\n")
+        end
+    when 'add_bill'
+        if narg == 2
+            require_relative '../lib/bookie/runner'
+            puts Account.all(:name.like => "#{completion_word}%").map { |a| a.name }.join("\n")
+        end
+    when 'bills'
+        if narg == 2
+            require_relative '../lib/bookie/runner'
+            puts Account.all(:name.like => "#{completion_word}%").map { |a| a.name }.join("\n")
+        end
+    when 'delete_bill'
+    when 'remove_bill'
+    when 'autobill'
+        if narg == 2
+            require_relative '../lib/bookie/runner'
+            puts Account.all(:name.like => "#{completion_word}%").map { |a| a.name }.join("\n")
+        end
+    when 'edit_bill'
+    when 'update_bill'
+    else
+        puts COMMANDS.select { |c| c.start_with?(completion_word) }.join("\n")
+    end
+end
+

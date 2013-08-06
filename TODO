@@ -1,0 +1,11 @@
+TODO:
+
+- rename to bookie
+- fix autocompletion when a : is in there, somehow it adds from the beginning
+- support for transfers
+- add overview for account (transactions + overview info)
+- support for goals
+- improve cycle support
+
+Bash completion:
+http://www.debian-administration.org/article/317/An_introduction_to_bash_completion_part_2

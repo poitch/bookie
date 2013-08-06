@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+
+puts "complete -C #{File.expand_path(File.dirname(__FILE__) + '/bookie_bash_completion')} -o default bookie"
+
